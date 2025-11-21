@@ -1,32 +1,39 @@
-*{
-    margin: 0;
-    padding: 0;
-    /* background-color: bisque; */
+* {
+  margin: 0;
+  padding: 0;
+  /* background-color: bisque; */
 }
-.heading{
-    text-align: center;
+.heading {
+  text-align: center;
 }
-nav{
-    background-color: black;
-    display: flex;
-    justify-content: right;
+nav {
+  background-color: black;
+  display: flex;
+  justify-content: right;
 }
-nav a{
-    color: white;
-    text-decoration: none;
-    padding: 0px 50px;
-    margin: 5px 10px;
-    align-content: center; 
+nav a {
+  color: white;
+  text-decoration: none;
+  padding: 0px 50px;
+  margin: 5px 10px;
+  align-content: center;
 }
-.pfp{
-    height: 30px;
-    margin: 5px;
+.pfp {
+  height: 30px;
+  margin: 5px;
+}
+.welcome {
+  text-align: center;
+  margin-top: 10px;
+}
+.subheading {
+  text-align: center;
+  margin: 20px 0px;
+}
+nav a:hover {
+  color: #00ffcc;
+  text-shadow: 0 0 5px #00ffcc;
 }
 .welcome{
-    text-align: center;
-    margin-top: 10px;
-}
-.subheading{
-    text-align: center;
-    margin: 20px 0px;
+    background: linear-gradient(135deg, #00c9ff, #92fe9d);
 }
