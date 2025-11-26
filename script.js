@@ -41,3 +41,7 @@ bmiCalcBtn.addEventListener("click", (event) => {
   outputEl.textContent = message;
 });
 
+
+//bmr calculator
+//accessing elements
+const 
