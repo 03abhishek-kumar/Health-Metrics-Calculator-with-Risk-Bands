@@ -44,4 +44,18 @@ bmiCalcBtn.addEventListener("click", (event) => {
 
 //bmr calculator
 //accessing elements
-const 
+const age = document.getElementById("age");
+const height = document.getElementById("height");
+const weight = document.getElementById("weight");
+const bmrCalcBtn = document.getElementById("bmrCalcBtn");
+const bmrOutput = document.getElementById("bmrOutput");
+
+bmrCalcBtn.addEventListener("click", () => {
+  const gender = document.querySelector('input[name="gender"]:checked');
+  const selectedGender = gender ? gender.value : null;
+
+  if (!selectedGender){
+    alert("Please select a gender.");
+    return;
+  }
+});
