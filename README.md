@@ -13,7 +13,7 @@ A collaborative React-based health companion built by Aditya Kumar and Abhishek 
 
 🔗 Live Demo
 
-[(https://03abhishek-kumar.github.io/Health-Metrics-Calculator-with-Risk-Bands/]
+[https://03abhishek-kumar.github.io/Health-Metrics-Calculator-with-Risk-Bands/]
 
 ---
 
