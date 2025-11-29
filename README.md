@@ -6,7 +6,7 @@ A collaborative React-based health companion built by Aditya Kumar and Abhishek 
 
  👥 Built By
 
-- Aditya Kumar – UI/UX, React Components, Unit Conversion, Deployment  
+- Aditya Kumar – UI/UX, Unit Conversion, Deployment  
 - Abhishek Kumar – Core Logic, Risk Band Mapping, Metric Calculations
 
 ---
@@ -32,17 +32,9 @@ A collaborative React-based health companion built by Aditya Kumar and Abhishek 
 
 🛠️ Tech Stack
 
-- Frontend: Html , Css , Tailwind CSS, JavaScript , React
+- Frontend: Html , Css , JavaScript
 - Visualization: Chart.js
 - APIs: Web Speech API (for voice input)
 - Deployment: Netlify / Vercel
 
 ---
-
-📦 Installation
-
-```bash
-git clone https://github.com/Aditya-kumar-codr/health-metrics-calculator.git
-cd health-metrics-calculator
-npm install
-npm start
