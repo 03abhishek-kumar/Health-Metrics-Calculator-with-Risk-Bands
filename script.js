@@ -1,61 +1,82 @@
 const bmiCalcBtn = document.getElementById("bmiCalcBtn");
-bmiCalcBtn.addEventListener("click", (event) => {
-  // If the button were inside a form, stopping default navigation is safe.
-  if (event && typeof event.preventDefault === 'function') event.preventDefault();
 
-  const heightRaw = document.getElementById("height").value;
-  const weightRaw = document.getElementById("weight").value;
-  const unit = document.getElementById("heightUnit")?.value || 'cm';
-  const outputEl = document.getElementById("bmiOutput");
+if (bmiCalcBtn) {
+  bmiCalcBtn.addEventListener("click", (event) => {
+    // If the button were inside a form, stopping default navigation is safe.
+    if (event && typeof event.preventDefault === 'function') event.preventDefault();
 
-  const height = parseFloat(heightRaw);
-  const weight = parseFloat(weightRaw);
+    const heightRaw = document.getElementById("height").value;
+    const weightRaw = document.getElementById("weight").value;
+    const unit = document.getElementById("heightUnit")?.value || 'cm';
+    const outputEl = document.getElementById("bmiOutput");
 
-  if (!isFinite(height) || !isFinite(weight) || height <= 0 || weight <= 0) {
-    outputEl.textContent = "Please enter valid positive height and weight.";
-    return;
-  }
+    const height = parseFloat(heightRaw);
+    const weight = parseFloat(weightRaw);
 
-  let heightMeters = height;
-  // Convert based on explicit unit selection
-  if (unit === 'cm') {
-    heightMeters = height / 100;
-  } else if (unit === 'm') {
-    heightMeters = height;
-  }
+    if (!isFinite(height) || !isFinite(weight) || height <= 0 || weight <= 0) {
+      outputEl.textContent = "Please enter valid positive height and weight.";
+      return;
+    }
 
-  if (!isFinite(heightMeters) || heightMeters <= 0) {
-    outputEl.textContent = "Height must be a positive number.";
-    return;
-  }
+    let heightMeters = height;
+    // Convert based on explicit unit selection
+    if (unit === 'cm') {
+      heightMeters = height / 100;
+    } else if (unit === 'm') {
+      heightMeters = height;
+    }
 
-  const bmiValue = weight / (heightMeters * heightMeters);
-  const bmi = bmiValue.toFixed(2);
+    if (!isFinite(heightMeters) || heightMeters <= 0) {
+      outputEl.textContent = "Height must be a positive number.";
+      return;
+    }
 
-  let message = `Your BMI is ${bmi}. `;
-  if (bmiValue < 18.5) message += "You're underweight.";
-  else if (bmiValue < 25) message += "You're in the normal range.";
-  else if (bmiValue < 30) message += "You're overweight.";
-  else message += "You're in the obese range.";
+    const bmiValue = weight / (heightMeters * heightMeters);
+    const bmi = bmiValue.toFixed(2);
 
-  outputEl.textContent = message;
-});
+    let message = `Your BMI is ${bmi}. `;
+    if (bmiValue < 18.5) message += "You're underweight.";
+    else if (bmiValue < 25) message += "You're in the normal range.";
+    else if (bmiValue < 30) message += "You're overweight.";
+    else message += "You're in the obese range.";
+
+    outputEl.textContent = message;
+  });
+}
 
 
 //bmr calculator
-//accessing elements
-const age = document.getElementById("age");
-const height = document.getElementById("height");
-const weight = document.getElementById("weight");
 const bmrCalcBtn = document.getElementById("bmrCalcBtn");
-const bmrOutput = document.getElementById("bmrOutput");
 
-bmrCalcBtn.addEventListener("click", () => {
-  const gender = document.querySelector('input[name="gender"]:checked');
-  const selectedGender = gender ? gender.value : null;
+if (bmrCalcBtn) {
+  const age = document.getElementById("age");
+  const height = document.getElementById("height");
+  const weight = document.getElementById("weight");
+  const bmrOutput = document.getElementById("bmrOutput");
 
-  if (!selectedGender){
-    alert("Please select a gender.");
-    return;
-  }
-});
+  bmrCalcBtn.addEventListener("click", () => {
+    const gender = document.querySelector('input[name="gender"]:checked');
+    const selectedGender = gender ? gender.value : null;
+
+    if (!selectedGender){
+      alert("Please select a gender.");
+      return;
+    }
+
+    let bmrValue;
+    // Ensure values are present before calculation
+    if (!age.value || !height.value || !weight.value) {
+        alert("Please enter all details.");
+        return;
+    }
+
+    if (selectedGender === "male"){
+      bmrValue = (10*weight.value) + (6.25*height.value) - (5*age.value) + 5;
+    }
+    else{
+      bmrValue = (10*weight.value) + (6.25*height.value) - (5*age.value) - 161;
+    }
+    const bmr = bmrValue.toFixed(2);
+    bmrOutput.textContent = `Your BMR is ${bmr}.`;
+  });
+}
