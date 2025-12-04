@@ -41,6 +41,28 @@ if (bmiCalcBtn) {
 
     outputEl.style.marginTop = "20px";
     outputEl.textContent = message;
+
+    // Save BMI to localStorage for profile page
+    localStorage.setItem("bmi", bmi);
+    localStorage.setItem("bmiCategory", message);
+
+    // Update health summary with both BMI and BMR if available
+    const savedBMR = localStorage.getItem("bmr");
+    const bmrMessage = localStorage.getItem("bmrMessage");
+    let summary = `BMI: ${bmi}. `;
+    if (savedBMR && bmrMessage) {
+      summary += `BMR: ${savedBMR} calories/day. Combined health assessment: `;
+      if (message.includes("normal")) {
+        summary += "Your metrics indicate a healthy balance.";
+      } else {
+        summary +=
+          "Consider consulting a healthcare professional for personalized advice.";
+      }
+    } else {
+      // Only BMI available
+      summary = `BMI: ${bmi}. ${message}`;
+    }
+    localStorage.setItem("summary", summary);
   });
 }
 
@@ -82,6 +104,25 @@ if (bmrCalcBtn) {
 
     bmrOutput.style.marginTop = "20px";
     bmrOutput.textContent = message2;
+
+    // Save BMR to localStorage for profile page
+    localStorage.setItem("bmr", bmr);
+    localStorage.setItem("bmrMessage", message2);
+
+    // Update health summary with both BMI and BMR if available
+    const savedBMI = localStorage.getItem("bmi");
+    const bmiCategory = localStorage.getItem("bmiCategory");
+    let summary = `BMR: ${bmr} calories/day. `;
+    if (savedBMI && bmiCategory) {
+      summary += `BMI: ${savedBMI}. Combined health assessment: `;
+      if (bmiCategory.includes("normal")) {
+        summary += "Your metrics indicate a healthy balance.";
+      } else {
+        summary +=
+          "Consider consulting a healthcare professional for personalized advice.";
+      }
+    }
+    localStorage.setItem("summary", summary);
   });
 }
 
@@ -143,4 +184,3 @@ document.getElementById("popupBg").addEventListener("click", (e) => {
     document.getElementById("popupBg").style.display = "none";
   }
 });
-
