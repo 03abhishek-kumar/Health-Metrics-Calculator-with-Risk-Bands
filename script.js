@@ -1,3 +1,4 @@
+// === BMI Calculator ===
 const bmiCalcBtn = document.getElementById("bmiCalcBtn");
 
 if (bmiCalcBtn) {
@@ -43,7 +44,7 @@ if (bmiCalcBtn) {
   });
 }
 
-//bmr calculator
+// === BMR Calculator ===
 const bmrCalcBtn = document.getElementById("bmrCalcBtn");
 
 if (bmrCalcBtn) {
@@ -79,8 +80,67 @@ if (bmrCalcBtn) {
       message2 +=
         "The normal range for women is between 1300 and 1500 calories per day.";
 
-    // Apply margin-top to the output element
     bmrOutput.style.marginTop = "20px";
     bmrOutput.textContent = message2;
   });
 }
+
+// === Profile Page ===
+// When page loads, fill all fields from localStorage
+window.addEventListener("load", () => {
+  // Basic profile
+  document.getElementById("userName").textContent =
+    localStorage.getItem("name") || "Your Name";
+
+  document.getElementById("userAge").textContent =
+    "Age: " + (localStorage.getItem("age") || "—");
+
+  document.getElementById("userGender").textContent =
+    "Gender: " + (localStorage.getItem("gender") || "—");
+
+  // Saved metrics (we'll wire these later from BMI/BMR pages)
+  document.getElementById("savedBMI").textContent =
+    "Last BMI: " + (localStorage.getItem("bmi") || "—");
+
+  document.getElementById("savedBMR").textContent =
+    "Last BMR: " + (localStorage.getItem("bmr") || "—");
+
+  document.getElementById("summaryText").textContent =
+    localStorage.getItem("summary") ||
+    "Your BMI & BMR summary will appear here once calculated.";
+});
+
+// Open popup
+document.getElementById("editBtn").addEventListener("click", () => {
+  document.getElementById("popupBg").style.display = "flex";
+});
+
+// Save profile
+document.getElementById("saveBtn").addEventListener("click", () => {
+  const name = document.getElementById("nameInput").value.trim();
+  const age = document.getElementById("ageInput").value.trim();
+  const gender = document.getElementById("genderInput").value;
+
+  if (!name || !age || !gender) {
+    alert("Please fill all fields.");
+    return;
+  }
+
+  localStorage.setItem("name", name);
+  localStorage.setItem("age", age);
+  localStorage.setItem("gender", gender);
+
+  // Close popup + refresh UI
+  document.getElementById("popupBg").style.display = "none";
+  document.getElementById("userName").textContent = name;
+  document.getElementById("userAge").textContent = "Age: " + age;
+  document.getElementById("userGender").textContent = "Gender: " + gender;
+});
+
+// Close popup if user clicks on the dark background
+document.getElementById("popupBg").addEventListener("click", (e) => {
+  if (e.target.id === "popupBg") {
+    document.getElementById("popupBg").style.display = "none";
+  }
+});
+
