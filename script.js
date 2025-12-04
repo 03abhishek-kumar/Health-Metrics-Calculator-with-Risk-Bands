@@ -280,9 +280,7 @@ document.getElementById("popupBg").addEventListener("click", (e) => {
 
 // =======================
 // Chart.js on Profile Page
-// ================================
-// Comparison Charts: BMI & BMR vs Normal
-// ================================
+
 (function createComparisonCharts() {
   // Wait for DOM + Chart.js to be ready
   window.addEventListener("load", () => {
