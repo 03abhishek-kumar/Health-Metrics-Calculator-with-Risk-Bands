@@ -289,7 +289,7 @@ if (document.getElementById("healthChart")) {
   const ctx = document.getElementById("healthChart").getContext("2d");
 
   new Chart(ctx, {
-    type: "bar",
+    type: "pie",
     data: {
       labels: ["BMI", "BMR"],
       datasets: [
