@@ -22,8 +22,7 @@ A collaborative health companion built by Aditya Kumar and Abhishek Kumar. This 
 - ✅ BMI, BMR calculators
 - 🎯 Risk Band assignment with color-coded feedback
 - 📊 Chart.js visualizations (BMI trend, risk distribution)
-- 📄 PDF export of health summary
-- 🎯 Goal tracker with progress bar
+- 🎯 Progress bar
 - 🧠 Personalized health tips based on metrics
 
 ---
