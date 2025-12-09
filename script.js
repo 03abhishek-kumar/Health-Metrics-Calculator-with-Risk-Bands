@@ -18,6 +18,7 @@ if (bmiCalcBtn) {
     if (!isFinite(height) || !isFinite(weight) || height <= 0 || weight <= 0) {
       outputEl.textContent =
         "Please enter valid positive numbers for height and weight.";
+      outputEl.className = ""; // Clear any previous risk classes
       outputEl.style.marginTop = "20px";
       outputEl.style.color = "red";
       return;
@@ -50,18 +51,45 @@ if (bmiCalcBtn) {
     localStorage.setItem("bmiHistory", JSON.stringify(bmiHistory));
 
     let message = `Your BMI is ${bmi}. `;
+    let riskClass = "";
+
     if (bmiValue < 18.5) {
       message += "You're underweight.";
+      riskClass = "underweight";
     } else if (bmiValue < 25) {
       message += "You're in the normal range.";
+      riskClass = "normal";
     } else if (bmiValue < 30) {
       message += "You're overweight.";
+      riskClass = "overweight";
     } else {
       message += "You're in the obese range.";
+      riskClass = "obese";
     }
 
-    outputEl.style.marginTop = "20px";
+    // Apply inline styles for immediate visual feedback
+    const colors = {
+      underweight: { bg: "#fff3cd", text: "#856404", border: "#ffc107" },
+      normal: { bg: "#d4edda", text: "#155724", border: "#28a745" },
+      overweight: { bg: "#ffeeba", text: "#856404", border: "#fd7e14" },
+      obese: { bg: "#f8d7da", text: "#721c24", border: "#dc3545" },
+    };
+
+    const style = colors[riskClass];
+    outputEl.className = `risk-message ${riskClass}`;
     outputEl.textContent = message;
+
+    if (style) {
+      outputEl.style.backgroundColor = style.bg;
+      outputEl.style.color = style.text;
+      outputEl.style.borderLeft = `5px solid ${style.border}`;
+      outputEl.style.padding = "15px";
+      outputEl.style.borderRadius = "8px";
+      outputEl.style.marginTop = "20px";
+      outputEl.style.fontWeight = "bold";
+    } else {
+      outputEl.style.marginTop = "20px";
+    }
 
     // Save BMI to localStorage for profile page
     localStorage.setItem("bmi", bmi);
@@ -137,16 +165,51 @@ if (bmrCalcBtn) {
 
     let message2 = `Your BMR is ${bmr}. `;
 
+    let bmrRiskClass = "";
+    let min, max;
+
     if (selectedGender === "male") {
+      min = 1600;
+      max = 1800;
       message2 +=
         "The normal range for men is between 1600 and 1800 calories per day.";
     } else {
+      min = 1300;
+      max = 1500;
       message2 +=
         "The normal range for women is between 1300 and 1500 calories per day.";
     }
 
-    bmrOutput.style.marginTop = "20px";
+    if (bmrValue < min) {
+      bmrRiskClass = "underweight"; // Reuse underweight style for "Low"
+    } else if (bmrValue > max) {
+      bmrRiskClass = "overweight"; // Reuse overweight style for "High"
+    } else {
+      bmrRiskClass = "normal";
+    }
+
     bmrOutput.textContent = message2;
+    bmrOutput.className = `risk-message ${bmrRiskClass}`;
+
+    // Apply inline styles for BMR
+    const bmrColors = {
+      underweight: { bg: "#fff3cd", text: "#856404", border: "#ffc107" }, // Low
+      normal: { bg: "#d4edda", text: "#155724", border: "#28a745" }, // Normal
+      overweight: { bg: "#ffeeba", text: "#856404", border: "#fd7e14" }, // High
+    };
+
+    const bmrStyle = bmrColors[bmrRiskClass];
+    if (bmrStyle) {
+      bmrOutput.style.backgroundColor = bmrStyle.bg;
+      bmrOutput.style.color = bmrStyle.text;
+      bmrOutput.style.borderLeft = `5px solid ${bmrStyle.border}`;
+      bmrOutput.style.padding = "15px";
+      bmrOutput.style.borderRadius = "8px";
+      bmrOutput.style.marginTop = "20px";
+      bmrOutput.style.fontWeight = "bold";
+    } else {
+      bmrOutput.style.marginTop = "20px";
+    }
 
     // Save BMR to localStorage for profile page
     localStorage.setItem("bmr", bmr);
@@ -312,37 +375,34 @@ document.getElementById("popupBg").addEventListener("click", (e) => {
         type: "bar",
         data: {
           labels: ["You", "Normal Min", "Normal Avg", "Normal Max"],
-          datasets: [{
-            label: "BMI Comparison",
-            data: [
-              isNaN(userBMI) ? 0 : userBMI,
-              bmiNormalMin,
-              bmiNormalAvg,
-              bmiNormalMax
-            ],
-            backgroundColor: [
-              "#4dabf7", // user
-              "#cfe9ff", // normal min
-              "#89c2ff", // normal mid
-              "#cfe9ff"  // normal max
-            ],
-            borderColor: [
-              "#1c7ed6",
-              "#8fbce8",
-              "#5aa0e6",
-              "#8fbce8"
-            ],
-            borderWidth: 1
-          }]
+          datasets: [
+            {
+              label: "BMI Comparison",
+              data: [
+                isNaN(userBMI) ? 0 : userBMI,
+                bmiNormalMin,
+                bmiNormalAvg,
+                bmiNormalMax,
+              ],
+              backgroundColor: [
+                "#4dabf7", // user
+                "#cfe9ff", // normal min
+                "#89c2ff", // normal mid
+                "#cfe9ff", // normal max
+              ],
+              borderColor: ["#1c7ed6", "#8fbce8", "#5aa0e6", "#8fbce8"],
+              borderWidth: 1,
+            },
+          ],
         },
         options: {
           plugins: {
-            legend: { display: false }
+            legend: { display: false },
           },
           scales: {
-            y: { beginAtZero: true }
-          }
-        }
+            y: { beginAtZero: true },
+          },
+        },
       });
     }
 
@@ -375,69 +435,50 @@ document.getElementById("popupBg").addEventListener("click", (e) => {
           type: "bar",
           data: {
             labels: ["You", "Normal Min", "Normal Avg", "Normal Max"],
-            datasets: [{
-              label: "BMR Comparison",
-              data: [
-                isNaN(userBMR) ? 0 : userBMR,
-                normMin,
-                normAvg,
-                normMax
-              ],
-              backgroundColor: [
-                "#ffa94d", // user
-                "#ffe8cc",
-                "#ffd09a",
-                "#ffe8cc"
-              ],
-              borderColor: [
-                "#f76707",
-                "#e6a65a",
-                "#f59a2f",
-                "#e6a65a"
-              ],
-              borderWidth: 1
-            }]
+            datasets: [
+              {
+                label: "BMR Comparison",
+                data: [isNaN(userBMR) ? 0 : userBMR, normMin, normAvg, normMax],
+                backgroundColor: [
+                  "#ffa94d", // user
+                  "#ffe8cc",
+                  "#ffd09a",
+                  "#ffe8cc",
+                ],
+                borderColor: ["#f76707", "#e6a65a", "#f59a2f", "#e6a65a"],
+                borderWidth: 1,
+              },
+            ],
           },
           options: {
             plugins: {
-              legend: { display: false }
+              legend: { display: false },
             },
-            scales: { y: { beginAtZero: true } }
-          }
+            scales: { y: { beginAtZero: true } },
+          },
         });
-
       } else {
         // Gender unknown: show user's value plus both male & female averages for context
         new Chart(ctx2, {
           type: "bar",
           data: {
             labels: ["You", "Male Avg", "Female Avg"],
-            datasets: [{
-              label: "BMR Comparison (gender unknown)",
-              data: [
-                isNaN(userBMR) ? 0 : userBMR,
-                bmrMaleAvg,
-                bmrFemaleAvg
-              ],
-              backgroundColor: [
-                "#ffa94d",
-                "#ffe6d0",
-                "#fff0d9"
-              ],
-              borderColor: [
-                "#f76707",
-                "#e6a65a",
-                "#f1b86b"
-              ],
-              borderWidth: 1
-            }]
+            datasets: [
+              {
+                label: "BMR Comparison (gender unknown)",
+                data: [isNaN(userBMR) ? 0 : userBMR, bmrMaleAvg, bmrFemaleAvg],
+                backgroundColor: ["#ffa94d", "#ffe6d0", "#fff0d9"],
+                borderColor: ["#f76707", "#e6a65a", "#f1b86b"],
+                borderWidth: 1,
+              },
+            ],
           },
           options: {
             plugins: {
-              legend: { display: false }
+              legend: { display: false },
             },
-            scales: { y: { beginAtZero: true } }
-          }
+            scales: { y: { beginAtZero: true } },
+          },
         });
       }
     }
